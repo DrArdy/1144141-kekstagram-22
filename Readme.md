@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Dmitry Kharitonov](https://up.htmlacademy.ru/javascript/22/user/1144141).
-* Наставник: `Неизвестно`.
+* Наставник: [Кирилл Сучков](https://htmlacademy.ru/profile/id1602581).
 
 ---
 
