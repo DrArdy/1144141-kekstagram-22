@@ -1,8 +1,8 @@
 const getRandomNumber = (min, max) => {
-    if (max > min && min >= 0) {
+  if (max > min && min >= 0) {
     return Math.round(Math.random()*(max-min)+min);
   }
-    else {
+  else {
     return 0;
   }
 }
