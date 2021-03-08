@@ -49,7 +49,7 @@ const getRandomElement = (elements, lastIndex) => {
 
 const getPhotosComment = () => {
   return {
-    id: getCommentId(100,999),
+    id: getCommentId(100, 999),
     avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
     message: getRandomElement(PHOTOS_COMMENT_VARIANTS, 5),
     name: getRandomElement(AUTHORS_NAME_VARIANTS, 5),
