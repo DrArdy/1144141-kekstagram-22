@@ -37,4 +37,3 @@ const getPhotosSpecificationList = () => {
   });
   return photosSpecificationList;
 };
-console.log(getPhotosSpecificationList());
