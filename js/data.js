@@ -17,7 +17,7 @@ const getPhotosComment = () => {
 
 const getPhotosCommentList = (quantity) => {
   const commentList = [];
-  for (i = 0; i <= quantity-1; i++) {
+  for (let i = 0; i <= quantity-1; i++) {
     commentList.push(getPhotosComment());
   }
   return commentList;
