@@ -13,7 +13,7 @@ const PHOTOS_QUANTITY = 25;
 
 const getPhotosIdList = () => {
   const photosIds = [];
-  for (i = 1; i <= PHOTOS_QUANTITY; i++) {
+  for (let i = 1; i <= PHOTOS_QUANTITY; i++) {
     photosIds.push(i);
   }
   return photosIds;
@@ -22,7 +22,7 @@ const getPhotosIdList = () => {
 const commentIds = [];
 
 const getCommentId = (min, max) => {
-  for (i = min; i <= max; i++) {
+  for (let i = min; i <= max; i++) {
     const commentId = getRandomNumber(min, max);
     const isUniqueId = commentIds.every((value) => {
       return commentId != value;
