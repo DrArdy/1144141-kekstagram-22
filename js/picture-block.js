@@ -1,5 +1,5 @@
 import {getPhotosSpecificationList} from './data.js';
-const photosPool = document.querySelector('.picture');
+const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
