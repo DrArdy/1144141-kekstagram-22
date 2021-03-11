@@ -8,7 +8,7 @@ const AUTHORS_NAME_VARIANTS = ['Михаил', 'Ульяна', 'Арина', 'Р
 
 const getPhotosComment = () => {
   return {
-    id: getCommentId(100, 999),
+    id: getCommentId(),
     avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
     message: getRandomElement(PHOTOS_COMMENT_VARIANTS, 5),
     name: getRandomElement(AUTHORS_NAME_VARIANTS, 5),
@@ -17,23 +17,18 @@ const getPhotosComment = () => {
 
 const getPhotosCommentList = (quantity) => {
   const commentList = [];
-  for (let i = 0; i <= quantity-1; i++) {
+  for (let i = 0; i <= quantity - 1; i++) {
     commentList.push(getPhotosComment());
   }
   return commentList;
 };
 
 const getPhotosSpecificationList = () => {
-  const photosSpecificationList = [];
-  const photosIdList = getPhotosIdList ();
-  photosIdList.forEach((value) => {
-    photosSpecificationList.push({
-      id: value,
-      url: `photos/${value}.jpg`,
-      description: PHOTOS_DESCRIPTION_LIST[value-1],
-      likes: getRandomNumber(15, 200),
-      comments: getPhotosCommentList(2),
-    });
-  });
-  return photosSpecificationList;
+  return getPhotosIdList().map((id) => ({
+    id: id,
+    url: `photos/${id}.jpg`,
+    description: PHOTOS_DESCRIPTION_LIST[id-1],
+    likes: getRandomNumber(15, 200),
+    comments: getPhotosCommentList(2),
+  }))
 };
