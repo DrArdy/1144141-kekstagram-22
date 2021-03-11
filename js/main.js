@@ -27,29 +27,23 @@ const getPhotosIdList = () => {
 
 const commentIds = [];
 
-const getCommentId = (min, max) => {
-  for (let i = min; i <= max; i++) {
-    const commentId = getRandomNumber(min, max);
-    const isUniqueId = commentIds.every((value) => {
-      return commentId != value;
-    });
-    if (isUniqueId == true) {
-      commentIds.push(commentId);
-      return commentId;
-    }
-    else {
-      continue;
-    }
+const getCommentId = () => {
+  const [min, max] = [100, 999];
+  let commentId = getRandomNumber(min, max);
+  while(commentIds.includes(commentId)) {
+    commentId = getRandomNumber(min, max);
   }
+  commentIds.push(commentId);
+  return commentId;
 };
 
-const getRandomElement = (elements, lastIndex) => {
-  return elements[getRandomNumber(0, lastIndex)];
+const getRandomElement = (elements) => {
+  return elements[getRandomNumber(0, elements.length-1)];
 };
 
 const getPhotosComment = () => {
   return {
-    id: getCommentId(100, 999),
+    id: getCommentId(),
     avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
     message: getRandomElement(PHOTOS_COMMENT_VARIANTS, 5),
     name: getRandomElement(AUTHORS_NAME_VARIANTS, 5),
@@ -58,23 +52,18 @@ const getPhotosComment = () => {
 
 const getPhotosCommentList = (quantity) => {
   const commentList = [];
-  for (let i = 0; i <= quantity-1; i++) {
+  for (let i = 0; i <= quantity - 1; i++) {
     commentList.push(getPhotosComment());
   }
   return commentList;
 };
 
 const getPhotosSpecificationList = () => {
-  const photosSpecificationList = [];
-  const photosIdList = getPhotosIdList ();
-  photosIdList.forEach((value) => {
-    photosSpecificationList.push({
-      id: value,
-      url: `photos/${value}.jpg`,
-      description: PHOTOS_DESCRIPTION_LIST[value-1],
-      likes: getRandomNumber(15, 200),
-      comments: getPhotosCommentList(2),
-    });
-  });
-  return photosSpecificationList;
+  return getPhotosIdList().map((id) => ({
+    id: id,
+    url: `photos/${id}.jpg`,
+    description: PHOTOS_DESCRIPTION_LIST[id-1],
+    likes: getRandomNumber(15, 200),
+    comments: getPhotosCommentList(2),
+  }))
 };
