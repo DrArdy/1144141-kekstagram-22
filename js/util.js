@@ -21,24 +21,18 @@ const getPhotosIdList = () => {
 
 const commentIds = [];
 
-const getCommentId = (min, max) => {
-  for (let i = min; i <= max; i++) {
-    const commentId = getRandomNumber(min, max);
-    const isUniqueId = commentIds.every((value) => {
-      return commentId != value;
-    });
-    if (isUniqueId == true) {
-      commentIds.push(commentId);
-      return commentId;
-    }
-    else {
-      continue;
-    }
+const getCommentId = () => {
+  const [min, max] = [100, 999];
+  let commentId = getRandomNumber(min, max);
+  while(commentIds.includes(commentId)) {
+    commentId = getRandomNumber(min, max);
   }
+  commentIds.push(commentId);
+  return commentId;
 };
 
-const getRandomElement = (elements, lastIndex) => {
-  return elements[getRandomNumber(0, lastIndex)];
+const getRandomElement = (elements) => {
+  return elements[getRandomNumber(0, elements.length-1)];
 };
 
 export {getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement};
