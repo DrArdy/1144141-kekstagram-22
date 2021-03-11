@@ -31,7 +31,6 @@ const getCommentId = () => {
   return commentId;
 };
 
-
 const getRandomElement = (elements) => {
   return elements[getRandomNumber(0, elements.length-1)];
 };
