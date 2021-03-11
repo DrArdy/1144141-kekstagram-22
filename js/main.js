@@ -1,2 +1,2 @@
 import './data.js';
-import './big-picture-block.js';
+import './picture-block.js';
