@@ -8,8 +8,11 @@ const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
+
 const photosSpecifications = getPhotosSpecificationList();
+
 const similarPhotosFragment = document.createDocumentFragment();
+
 photosSpecifications.forEach(({url, likes, comments}) => {
   const picturePopup = picturePopupTemplate.cloneNode(true);
   picturePopup.querySelector('.picture__img').src = url;
@@ -19,13 +22,20 @@ photosSpecifications.forEach(({url, likes, comments}) => {
 });
 photosPool.appendChild(similarPhotosFragment);
 
-const openPhotosPopupElements = photosPool.querySelectorAll('.picture');
+const addEventListenerByClass = (className, event, fn, container) => {
+  const list = container.getElementsByClassName(className);
+  for (let i = 0, len = list.length; i < len; i++) {
+    list[i].addEventListener(event, fn, false);
+  }
+};
 
-openPhotosPopupElements.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  openBigPhotosPopup(evt);
-});
+const removeEventListenerByClass = (className, event, fn, container) => {
+  const list = container.getElementsByClassName(className);
+  for (let i = 0, len = list.length; i < len; i++) {
+    list[i].removeEventListener(event, fn, false);
+  }
+};
 
-closePhotosPopupElement.addEventListener('click', () => {
-  closeBigPhotosPopup();
-});
+addEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
+
+removeEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
