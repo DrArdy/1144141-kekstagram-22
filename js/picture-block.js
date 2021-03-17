@@ -3,8 +3,8 @@ const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
-const photosSpecifications = getPhotosSpecificationList();
 const similarPhotosFragment = document.createDocumentFragment();
+const photosSpecifications = getPhotosSpecificationList();
 
 const renderPicture = ({url, likes, comments}) => {
   const picturePopup = picturePopupTemplate.cloneNode(true);
