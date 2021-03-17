@@ -1,13 +1,9 @@
 import {getPhotosSpecificationList} from './data.js';
-
 const photosPool = document.querySelector('.pictures');
-
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
-
 const photosSpecifications = getPhotosSpecificationList();
-
 const similarPhotosFragment = document.createDocumentFragment();
 
 const renderPicture = ({url, likes, comments}) => {
