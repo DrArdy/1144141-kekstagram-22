@@ -1,5 +1,4 @@
 const bigPhotosPopup = document.querySelector('.big-picture');
-
 const bigPhotosUrl = bigPhotosPopup.querySelector('.big-picture__img');
 const bigPhotosLikesCount = bigPhotosPopup.querySelector('.likes-count');
 const bigPhotosCommentsCount = bigPhotosPopup.querySelector('.comments-count');

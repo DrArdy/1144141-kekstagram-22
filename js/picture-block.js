@@ -1,23 +1,19 @@
-import {getPhotosSpecificationList} from './data.js';
 const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
-const similarPhotosFragment = document.createDocumentFragment();
-const photosSpecifications = getPhotosSpecificationList();
 
-const renderPicture = ({url, likes, comments}) => {
+const renderPicture = (dataElement) => {
   const picturePopup = picturePopupTemplate.cloneNode(true);
-  picturePopup.querySelector('.picture__img').src = url;
-  picturePopup.querySelector('.picture__likes').textContent = likes;
-  picturePopup.querySelector('.picture__comments').textContent = comments.length;
-  similarPhotosFragment.appendChild(picturePopup);
+  picturePopup.querySelector('.picture__img').src = dataElement.url;
+  picturePopup.querySelector('.picture__likes').textContent = dataElement.likes;
+  picturePopup.querySelector('.picture__comments').textContent = dataElement.length;
+  return picturePopup;
 };
 
-const renderPictures = () => {
-  photosSpecifications.forEach(({url, likes, comments}) => {
-    renderPicture({url, likes, comments});
-    photosPool.appendChild(similarPhotosFragment);
+const renderPictures = (dataList) => {
+  dataList.forEach((array) => {
+    photosPool.appendChild(renderPicture(array));
   });
 };
 

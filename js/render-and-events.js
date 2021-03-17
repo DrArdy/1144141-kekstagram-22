@@ -1,9 +1,10 @@
+import {getPhotosSpecificationList} from './data.js';
 import {renderPicture, renderPictures, photosPool} from './picture-block.js';
 import {openBigPhotosPopup, closeBigPhotosPopup} from './big-picture-block.js';
 
 const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
 
-renderPictures();
+renderPictures(getPhotosSpecificationList());
 
 const addEventListenerByClass = (className, event, fn, container) => {
   const list = container.getElementsByClassName(className);
@@ -18,7 +19,7 @@ const removeEventListenerByClass = (className, event, fn, container) => {
     list[i].removeEventListener(event, fn, false);
   }
 };
-  
+
 addEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
   
 removeEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
