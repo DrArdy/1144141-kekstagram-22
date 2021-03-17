@@ -1,4 +1,4 @@
-import {renderPicture, renderPictures} from './picture-block.js';
+import {renderPicture, renderPictures, photosPool} from './picture-block.js';
 import {openBigPhotosPopup, closeBigPhotosPopup} from './big-picture-block.js';
 
 const closePhotosPopupElement = document.querySelector('.big-picture__cancel');

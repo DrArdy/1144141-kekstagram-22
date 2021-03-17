@@ -21,4 +21,4 @@ const renderPictures = () => {
   });
 };
 
-export {renderPicture, renderPictures};
+export {renderPicture, renderPictures, photosPool};
