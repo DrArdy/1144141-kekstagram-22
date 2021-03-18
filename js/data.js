@@ -1,4 +1,4 @@
-import {getRandomNumber, getPhotosIdList, getCommentId, getRandomElement} from './util.js'
+import {getRandomNumber, getPhotosIdList, getCommentId, getRandomElement} from './util.js';
 
 const PHOTOS_DESCRIPTION_LIST = ['Пляж', 'Указатель', 'Море', 'Девушка с камерой', 'Суп с человечками', 'Крутой автомобиль', 'Клубника на завтрак', 'Морс', 'Гидроплан', 'Обувь', 'Дорожка к морю', 'Ауди', 'Какая-то еда', 'Бутеркот', 'Космотапки', 'Самолет', 'Хор', 'Ретромобиль', 'Тапки фонари', 'Пальмы', 'Завтрак', 'Закат', 'Краб', 'Концерт', 'Бегемот и джип'];
 
@@ -32,3 +32,5 @@ const getPhotosSpecificationList = () => {
     comments: getPhotosCommentList(2),
   }))
 };
+
+export {getPhotosSpecificationList};
