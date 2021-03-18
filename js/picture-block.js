@@ -7,7 +7,7 @@ const renderPicture = (dataElement) => {
   const picturePopup = picturePopupTemplate.cloneNode(true);
   picturePopup.querySelector('.picture__img').src = dataElement.url;
   picturePopup.querySelector('.picture__likes').textContent = dataElement.likes;
-  picturePopup.querySelector('.picture__comments').textContent = dataElement.length;
+  picturePopup.querySelector('.picture__comments').textContent = dataElement.comments.length;
   return picturePopup;
 };
 

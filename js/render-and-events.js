@@ -1,25 +1,30 @@
 import {getPhotosSpecificationList} from './data.js';
 import {renderPicture, renderPictures, photosPool} from './picture-block.js';
-import {openBigPhotosPopup, closeBigPhotosPopup} from './big-picture-block.js';
+import {renderBigPhotosPopup, bigPhotosPopup} from './big-picture-block.js';
 
 const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
 
-renderPictures(getPhotosSpecificationList());
+const photosSpecificationList = getPhotosSpecificationList();
 
-const addEventListenerByClass = (className, event, fn, container) => {
-  const list = container.getElementsByClassName(className);
-  for (let i = 0, len = list.length; i < len; i++) {
-    list[i].addEventListener(event, fn, false);
-  }
-};
-  
-const removeEventListenerByClass = (className, event, fn, container) => {
-  const list = container.getElementsByClassName(className);
-  for (let i = 0, len = list.length; i < len; i++) {
-    list[i].removeEventListener(event, fn, false);
-  }
+const bigPhotosPopupConditionElement = document.querySelector('body');
+
+renderPictures(photosSpecificationList);
+
+const openBigPhotosPopup = (evt) => {
+  bigPhotosPopupConditionElement.classList.add('modal-open');
+  bigPhotosPopup.classList.remove('hidden');
+  removePicturesEventListeners(evt.target);
+  renderBigPhotosPopup(evt.target);
+  closePhotosPopupElement.addEventListener('click', closeBigPhotosPopup);
 };
 
-addEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
-  
-removeEventListenerByClass('picture', 'click', openBigPhotosPopup, photosPool);
+const closeBigPhotosPopup = () => {
+  bigPhotosPopup.classList.add('hidden');
+  bigPhotosPopupConditionElement.classList.remove('modal-open');
+};
+
+const removePicturesEventListeners = (cb) => {  
+  cb.removeEventListener('click', closeBigPhotosPopup, false);
+};
+
+photosPool.addEventListener('click', openBigPhotosPopup, false);

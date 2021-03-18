@@ -4,39 +4,32 @@ const bigPhotosLikesCount = bigPhotosPopup.querySelector('.likes-count');
 const bigPhotosCommentsCount = bigPhotosPopup.querySelector('.comments-count');
 const bigPhotosCommentsPool = bigPhotosPopup.querySelector('.social__comments');
 const bigPhotosDescription = bigPhotosPopup.querySelector('.social__caption');
-const bigPhotosPopupConditionElement = document.querySelector('body');
 
-const commentFragment = document.createDocumentFragment();
-
-const showPhotosComments = (evt) => {
-  const newComment = commentFragment.createElement('li');
-  const commentsAuthorAvatar = newComment.createElement('img');
-  const commentsText = newComment.createElement('p');
+const renderPhotosComments = (commentDataElement) => {
+  const commentFragment = document.createDocumentFragment();
+  const newComment = document.createElement('li');
+  const commentsAuthorAvatar = document.createElement('img');
+  const commentsText = document.createElement('p');
   newComment.classList.add('social__comment');
   commentsAuthorAvatar.classList.add('social__picture');
   commentsText.classList.add('social__text');
-  commentsAuthorAvatar.src = evt.url;
-  commentsAuthorAvatar.alt = evt.name;
+  commentsAuthorAvatar.src = commentDataElement.url;
+  commentsAuthorAvatar.alt = commentDataElement.name;
   commentsAuthorAvatar.width = 35;
   commentsAuthorAvatar.height = 35;
-  commentsText.textContent = evt.message;
+  commentsText.textContent = commentDataElement.message;
   commentFragment.appendChild(newComment);
+  newComment.appendChild(commentsAuthorAvatar);
+  newComment.appendChild(commentsText);
+  return commentFragment;
 };
 
-const openBigPhotosPopup = (evt) => {
-  bigPhotosPopupConditionElement.classList.add('modal-open');
-  bigPhotosPopup.classList.remove('hidden');
-  const currentPhotosSpecification = evt.currentTarget;
-  bigPhotosUrl.src = currentPhotosSpecification.url;
-  bigPhotosLikesCount.textContent = currentPhotosSpecification.likes;
-  bigPhotosCommentsCount.textContent = currentPhotosSpecification.comments.length;
-  bigPhotosDescription.textContent = currentPhotosSpecification.description;
-  bigPhotosCommentsPool.appendChild(showPhotosComments(evt));
+const renderBigPhotosPopup = (dataElement) => {
+  bigPhotosUrl.src = dataElement.url;
+  bigPhotosLikesCount.textContent = dataElement.likes;
+  bigPhotosCommentsCount.textContent = dataElement.comments.length;
+  bigPhotosDescription.textContent = dataElement.description;
+  bigPhotosCommentsPool.appendChild(renderPhotosComments(dataElement.comments));
 };
 
-const closeBigPhotosPopup = () => {
-  bigPhotosPopup.classList.add('hidden');
-  bigPhotosPopupConditionElement.classList.remove('modal-open');
-};
-
-export {openBigPhotosPopup, closeBigPhotosPopup};
+export {renderBigPhotosPopup, bigPhotosPopup};
