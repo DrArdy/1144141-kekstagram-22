@@ -10,6 +10,7 @@ const renderPhotosComments = (commentDataElement) => {
   const newComment = document.createElement('li');
   const commentsAuthorAvatar = document.createElement('img');
   const commentsText = document.createElement('p');
+
   newComment.classList.add('social__comment');
   commentsAuthorAvatar.classList.add('social__picture');
   commentsText.classList.add('social__text');
@@ -21,6 +22,7 @@ const renderPhotosComments = (commentDataElement) => {
   commentFragment.appendChild(newComment);
   newComment.appendChild(commentsAuthorAvatar);
   newComment.appendChild(commentsText);
+  
   return commentFragment;
 };
 
@@ -32,4 +34,25 @@ const renderBigPhotosPopup = (dataElement) => {
   bigPhotosCommentsPool.appendChild(renderPhotosComments(dataElement.comments));
 };
 
-export {renderBigPhotosPopup, bigPhotosPopup};
+const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
+
+const bigPhotosPopupConditionElement = document.querySelector('body');
+
+const openBigPhotosPopup = (pictureData) => (event) => {
+  bigPhotosPopupConditionElement.classList.add('modal-open');
+  bigPhotosPopup.classList.remove('hidden');
+  removePicturesEventListeners(event.target);
+  renderBigPhotosPopup(event.target);
+  closePhotosPopupElement.addEventListener('click', closeBigPhotosPopup);
+};
+
+const closeBigPhotosPopup = () => {
+  bigPhotosPopup.classList.add('hidden');
+  bigPhotosPopupConditionElement.classList.remove('modal-open');
+};
+
+const removePicturesEventListeners = (callback) => {  
+  callback.removeEventListener('click', closeBigPhotosPopup, false);
+};
+
+export {openBigPhotosPopup};

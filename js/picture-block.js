@@ -1,20 +1,18 @@
-const photosPool = document.querySelector('.pictures');
+import {openBigPhotosPopup} from './big-picture-block.js';
+
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
 
-const renderPicture = (dataElement) => {
+const renderPicture = (pictureData) => {
   const picturePopup = picturePopupTemplate.cloneNode(true);
-  picturePopup.querySelector('.picture__img').src = dataElement.url;
-  picturePopup.querySelector('.picture__likes').textContent = dataElement.likes;
-  picturePopup.querySelector('.picture__comments').textContent = dataElement.comments.length;
+  
+  picturePopup.querySelector('.picture__img').src = pictureData.url;
+  picturePopup.querySelector('.picture__likes').textContent = pictureData.likes;
+  picturePopup.querySelector('.picture__comments').textContent = pictureData.comments.length;
+  picturePopup.addEventListener('click', openBigPhotosPopup(pictureData), false);
+
   return picturePopup;
 };
 
-const renderPictures = (dataList) => {
-  dataList.forEach((array) => {
-    photosPool.appendChild(renderPicture(array));
-  });
-};
-
-export {renderPicture, renderPictures, photosPool};
+export {renderPicture};
