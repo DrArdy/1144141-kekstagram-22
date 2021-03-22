@@ -13,8 +13,9 @@ renderPictures(photosSpecificationList);
 const openBigPhotosPopup = (evt) => {
   bigPhotosPopupConditionElement.classList.add('modal-open');
   bigPhotosPopup.classList.remove('hidden');
-  removePicturesEventListeners(evt.target);
-  renderBigPhotosPopup(evt.target);
+  const currentTarget = evt.target;
+  removePicturesEventListeners(currentTarget);
+  renderBigPhotosPopup(currentTarget);
   closePhotosPopupElement.addEventListener('click', closeBigPhotosPopup);
 };
 
