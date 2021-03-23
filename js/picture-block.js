@@ -15,4 +15,14 @@ const renderPicture = (pictureData) => {
   return picturePopup;
 };
 
-export {renderPicture};
+const renderPictures = (dataList) => {
+  const photosListFragment = document.createDocumentFragment();
+  
+  dataList.forEach((array) => {
+    photosListFragment.appendChild(renderPicture(array));
+  });
+
+  return photosListFragment;
+};
+
+export {renderPictures};
