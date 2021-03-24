@@ -1,3 +1,10 @@
+import {SCALE_STEP, SCALE_MAX, SCALE_MIN, PHOTOS_QUANTITY} from './constants.js';
+
+const scaleInput = document.querySelector('.scale__control--value');
+const photosPreviewDisplay = document.querySelector('.img-upload__preview');
+const previewImg = photosPreviewDisplay.querySelector('img');
+const commentIds = [];
+
 const getRandomNumber = (min, max) => {
   if (max > min && min >= 0) {
     return Math.round(Math.random()*(max-min)+min);
@@ -9,8 +16,6 @@ const getRandomNumber = (min, max) => {
 
 const checkStringLength = (verifiableString, maxStringLength=140) => verifiableString.length <= maxStringLength;
 
-const PHOTOS_QUANTITY = 25;
-
 const getPhotosIdList = () => {
   const photosIds = [];
   for (let i = 1; i <= PHOTOS_QUANTITY; i++) {
@@ -18,8 +23,6 @@ const getPhotosIdList = () => {
   }
   return photosIds;
 };
-
-const commentIds = [];
 
 const getCommentId = () => {
   const [min, max] = [100, 999];
@@ -39,4 +42,25 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-export {getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement, isEscEvent};
+const increaseScale = () => {
+  const currentScale = parseInt(scaleInput.value, 10);
+  
+  if (currentScale !== SCALE_MAX) {
+    changeScale(currentScale + SCALE_STEP);
+  }
+};
+  
+const decreaseScale = () => {
+  const currentScale = parseInt(scaleInput.value, 10);
+  
+  if (currentScale !== SCALE_MIN) {
+    changeScale(currentScale - SCALE_STEP);
+  }
+};
+  
+const changeScale = (value) => {
+  scaleInput.value = `${value}%`;
+  previewImg.style.transform = `scale(${value / 100})`;
+};
+
+export {getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement, isEscEvent, increaseScale, decreaseScale};
