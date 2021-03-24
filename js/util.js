@@ -35,4 +35,8 @@ const getRandomElement = (elements) => {
   return elements[getRandomNumber(0, elements.length-1)];
 };
 
-export {getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement};
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+export {getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement, isEscEvent};
