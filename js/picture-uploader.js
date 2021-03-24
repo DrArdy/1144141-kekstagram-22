@@ -96,24 +96,49 @@ const calculateEffect = (effect, value) => {
 const setupSliderSettings = (effect) => {
   switch (effect) {
     case 'grayscale':
-      effectsLevelSlider.noUiSlider.range = '{min: 0, max: 1}';
-      effectsLevelSlider.noUiSlider.step = 0.1;
+      effectsLevelSlider.noUiSlider.updateOptions({
+        range: {
+          'min': 0,
+          'max': 1,
+        },
+        step: 0.1,
+      });
       break
     case 'sepia':
-      effectsLevelSlider.noUiSlider.range = '{min: 0, max: 1}';
-      effectsLevelSlider.noUiSlider.step = 0.1;
+      effectsLevelSlider.noUiSlider.updateOptions({
+        range: {
+          'min': 0,
+          'max': 1,
+        },
+        step: 0.1,
+      });
       break
     case 'invert':
-      effectsLevelSlider.noUiSlider.range = '{min: 0, max: 100}';
-      effectsLevelSlider.noUiSlider.step = 1;
+      effectsLevelSlider.noUiSlider.updateOptions({
+        range: {
+          'min': 0,
+          'max': 100,
+        },
+        step: 1,
+      });
       break
     case 'blur':
-      effectsLevelSlider.noUiSlider.range = '{min: 0, max: 3}';
-      effectsLevelSlider.noUiSlider.step = 0.1;
+      effectsLevelSlider.noUiSlider.updateOptions({
+        range: {
+          'min': 0,
+          'max': 3,
+        },
+        step: 0.1,
+      });
       break
     case 'brightness':
-      effectsLevelSlider.noUiSlider.range = '{min: 1, max: 3}';
-      effectsLevelSlider.noUiSlider.step = 0.1;
+      effectsLevelSlider.noUiSlider.updateOptions({
+        range: {
+          'min': 1,
+          'max': 3,
+        },
+        step: 0.1,
+      });
       break
     case 'none':
       break
@@ -126,6 +151,7 @@ const handleChangeEffects = (event) => {
   if (currentScaleEffect === 'none') {
     // Скрыть слайдер
     effectsLevelField.classList.add('hidden');
+    previewImg.style.filter = 'none';
   } 
   else {
     // Показать слайдер
@@ -135,6 +161,8 @@ const handleChangeEffects = (event) => {
     effectsLevelSlider.noUiSlider.on('update', (_, handle, unencoded) => {
       effectsLevelValue.value = unencoded[handle];
       previewImg.style.filter = calculateEffect(currentScaleEffect, effectsLevelValue.value);
+      console.log(previewImg.style.filter);
+      
     });
   }
   previewImg.className = `effects__preview--${currentScaleEffect}`;
