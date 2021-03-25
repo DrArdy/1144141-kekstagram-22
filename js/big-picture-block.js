@@ -9,7 +9,6 @@ const bigPhotosDescription = bigPhotosPopup.querySelector('.social__caption');
 const renderPhotosComments = (commentDataElements) => {
   const commentFragment = document.createDocumentFragment();
 
-
   commentDataElements.forEach((array) => {
     const newComment = document.createElement('li');
     const commentsAuthorAvatar = document.createElement('img');
