@@ -1,4 +1,5 @@
 import {isEscEvent, increaseScale, decreaseScale} from './util.js';
+import {startHashtagsValidation, stopHashtagsValidation} from './validation.js';
 
 const photosEditorPopupConditionElement = document.querySelector('body');
 const photosEditorPopup = document.querySelector('.img-upload__overlay');
@@ -11,6 +12,9 @@ const effectsButtons = photosEditorPopup.querySelectorAll('.effects__radio');
 const effectsLevelSlider = photosEditorPopup.querySelector('.effect-level__slider');
 const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-level');
 const effectsLevelValue = photosEditorPopup.querySelector('.effect-level__value');
+const hashtagField = photosEditorPopup.querySelector('.text__hashtags');
+const commentField = photosEditorPopup.querySelector('.text__description');
+const submitButton = photosEditorPopup.querySelector('.img-upload__submit');
 
 const openPhotosEditorPopup = () => {
   photosEditorPopupConditionElement.classList.add('modal-open');
@@ -46,20 +50,32 @@ const openPhotosEditorPopup = () => {
   effectsButtons.forEach((button) => {
     button.addEventListener('change', handleChangeEffects);
   });
+  startHashtagsValidation();
+  submitButton.addEventListener('click', postForm);
 };
 
 const closePhotosEditorPopup = () => {
   photosEditorPopup.classList.add('hidden');
   photosEditorPopupConditionElement.classList.remove('modal-open');
   effectsLevelSlider.noUiSlider.destroy();
-  previewImg.className = 'none';
-  previewImg.style.filter = 'none';
-  previewImg.style.transform = 'scale(1)';
+  previewImg.className = '';
+  previewImg.style.filter = '';
+  previewImg.style.transform = '';
+
+  closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
+  document.removeEventListener('keydown', closeOnEscKeydown);
+  zoomInButton.removeEventListener('click', increaseScale);
+  zoomOutButton.removeEventListener('click', decreaseScale);
+  effectsButtons.forEach((button) => {
+    button.removeEventListener('change', handleChangeEffects);
+  });
+  stopHashtagsValidation();
+  submitButton.removeEventListener('click', postForm);
 };
 
-const closeOnEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
+const closeOnEscKeydown = (event) => {
+  if (isEscEvent(event)) {
+    event.preventDefault();
     closePhotosEditorPopup();
   }
 };
@@ -155,6 +171,10 @@ const handleChangeEffects = (event) => {
     });
   }
   previewImg.className = `effects__preview--${currentScaleEffect}`;
+};
+
+const postForm = async () => {
+  const response = await fetch('https://22.javascript.pages.academy/kekstagram');
 };
 
 export {openPhotosEditorPopup};

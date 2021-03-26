@@ -42,7 +42,7 @@ const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
 
 const bigPhotosPopupConditionElement = document.querySelector('body');
 
-const openBigPhotosPopup = (pictureData) => (event) => {
+const openBigPhotosPopup = (pictureData) => () => {
   bigPhotosPopupConditionElement.classList.add('modal-open');
   renderBigPhotosPopup(pictureData);
   bigPhotosPopup.classList.remove('hidden');
