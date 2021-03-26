@@ -1,11 +1,14 @@
-import {getPhotosSpecificationList} from './data.js';
 import {renderPictures} from './picture-block.js';
-import {openPhotosEditorPopup} from './picture-uploader.js';
-
-const photosPool = document.querySelector('.pictures');
-
-photosPool.appendChild(renderPictures(getPhotosSpecificationList()));
+import {openPhotosEditorPopup, setPictureUploaderSubmit} from './picture-uploader.js';
+import {getServerData} from './server-interaction';
 
 const uploadFileField = document.querySelector('#upload-file');
 
+getServerData((dataList) => {
+  console.log(dataList);
+  renderPictures(dataList);
+});
+
 uploadFileField.addEventListener('change', openPhotosEditorPopup);
+
+setPictureUploaderSubmit();

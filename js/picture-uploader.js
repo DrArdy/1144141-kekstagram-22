@@ -1,4 +1,5 @@
-import {isEscEvent, increaseScale, decreaseScale} from './util.js';
+import {sendServerData} from './server-interaction.js';
+import {isEscEvent, increaseScale, decreaseScale, showErrorMessage} from './util.js';
 import {startHashtagsValidation, stopHashtagsValidation} from './validation.js';
 
 const photosEditorPopupConditionElement = document.querySelector('body');
@@ -14,7 +15,7 @@ const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-l
 const effectsLevelValue = photosEditorPopup.querySelector('.effect-level__value');
 const hashtagField = photosEditorPopup.querySelector('.text__hashtags');
 const commentField = photosEditorPopup.querySelector('.text__description');
-const submitButton = photosEditorPopup.querySelector('.img-upload__submit');
+const photosUploadForm = document.querySelector('.img-upload__form');
 
 const openPhotosEditorPopup = () => {
   photosEditorPopupConditionElement.classList.add('modal-open');
@@ -51,7 +52,6 @@ const openPhotosEditorPopup = () => {
     button.addEventListener('change', handleChangeEffects);
   });
   startHashtagsValidation();
-  submitButton.addEventListener('click', postForm);
 };
 
 const closePhotosEditorPopup = () => {
@@ -70,7 +70,6 @@ const closePhotosEditorPopup = () => {
     button.removeEventListener('change', handleChangeEffects);
   });
   stopHashtagsValidation();
-  submitButton.removeEventListener('click', postForm);
 };
 
 const closeOnEscKeydown = (event) => {
@@ -173,8 +172,16 @@ const handleChangeEffects = (event) => {
   previewImg.className = `effects__preview--${currentScaleEffect}`;
 };
 
-const postForm = async () => {
-  const response = await fetch('https://22.javascript.pages.academy/kekstagram');
+const setPictureUploaderSubmit = () => {
+  photosUploadForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+  
+    sendServerData(
+      () => closePhotosEditorPopup(),
+      () => showErrorMessage('Не удалось отправить форму. Попробуйте ещё раз'),
+      new FormData(event.target),
+    );
+  });
 };
 
-export {openPhotosEditorPopup};
+export {openPhotosEditorPopup, setPictureUploaderSubmit};

@@ -1,5 +1,5 @@
 import {openBigPhotosPopup} from './big-picture-block.js';
-
+const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
@@ -22,7 +22,7 @@ const renderPictures = (dataList) => {
     photosListFragment.appendChild(renderPicture(array));
   });
 
-  return photosListFragment;
+  photosPool.appendChild(photosListFragment);
 };
 
 export {renderPictures};
