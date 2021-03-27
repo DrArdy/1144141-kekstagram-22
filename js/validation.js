@@ -1,30 +1,27 @@
-import {MAX_HASHTAGS_QUANTITY} from './constants.js';
+import {MAX_HASHTAGS_QUANTITY, HASHTAG_REGULAR_EXPRESSION} from './constants.js';
 
 const photosHashtag = document.querySelector('.text__hashtags');
 
-const startHashtagsValidation = () => {
-  photosHashtag.addEventListener('input', handleValidationEvent);
+const setHashtagsError = (message) => {
+  photosHashtag.setCustomValidity(message);
+  photosHashtag.style.borderColor = 'red';
+  photosHashtag.reportValidity();
+  return;
 };
 
 const handleValidationEvent = () => {
   const hashtagList = photosHashtag.value.toLowerCase().split(' '); 
+  if (hashtagList.length > MAX_HASHTAGS_QUANTITY) {
+    return setHashtagsError('Максимальное количество хэштегов 5.');
+  }
 
-  hashtagList.forEach((hashtag) => { 
-    if (/^#([а-яА-Я\w]{1,20})$/gmi.test(hashtag) && hashtagList.length < MAX_HASHTAGS_QUANTITY) { 
-      photosHashtag.setCustomValidity('');
-      photosHashtag.style.borderColor = '';
+  for (let i = 0; i < hashtagList.length; i++) {  
+    if (!/^#([а-яА-Я\w]{1,20})$/gmi.test(hashtagList[i])) { 
+      return setHashtagsError(' Хэштеги разделяются пробелом. Строка после решётки должна состоять из букв и чисел, длина от 1 до 20 символов.');
     }
-    else {
-      photosHashtag.setCustomValidity('Строка после решётки должна состоять из букв и чисел, длина от 1 до 20 символов. Максимальное количество хэштегов 5. Хэштеги разделяются пробелом.');
-      photosHashtag.style.borderColor = 'red';
-    }
-  }); 
-
-  photosHashtag.reportValidity();
+  }
+  photosHashtag.setCustomValidity('');
+  photosHashtag.style.borderColor = '';
 };
 
-const stopHashtagsValidation = () => {
-  photosHashtag.removeEventListener('input', handleValidationEvent);
-};
-
-export {startHashtagsValidation, stopHashtagsValidation};
+export {handleValidationEvent};

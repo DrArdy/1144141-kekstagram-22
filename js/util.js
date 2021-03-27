@@ -1,46 +1,10 @@
-import {SCALE_STEP, SCALE_MAX, SCALE_MIN, PHOTOS_QUANTITY, ALERT_SHOW_TIME} from './constants.js';
+import {SCALE_STEP, SCALE_MAX, SCALE_MIN, ALERT_SHOW_TIME} from './constants.js';
 
 const scaleInput = document.querySelector('.scale__control--value');
 const photosPreviewDisplay = document.querySelector('.img-upload__preview');
 const previewImg = photosPreviewDisplay.querySelector('img');
-const commentIds = [];
-const successMessageTemplate = document.querySelector('#success')
-  .content 
-  .querySelector('.success');
-const messagePlacement = document.querySelector('main');
-
-const getRandomNumber = (min, max) => {
-  if (max > min && min >= 0) {
-    return Math.round(Math.random()*(max-min)+min);
-  }
-  else {
-    return 0;
-  }
-};
 
 const checkStringLength = (verifiableString, maxStringLength=140) => verifiableString.length <= maxStringLength;
-
-const getPhotosIdList = () => {
-  const photosIds = [];
-  for (let i = 1; i <= PHOTOS_QUANTITY; i++) {
-    photosIds.push(i);
-  }
-  return photosIds;
-};
-
-const getCommentId = () => {
-  const [min, max] = [100, 999];
-  let commentId = getRandomNumber(min, max);
-  while(commentIds.includes(commentId)) {
-    commentId = getRandomNumber(min, max);
-  }
-  commentIds.push(commentId);
-  return commentId;
-};
-
-const getRandomElement = (elements) => {
-  return elements[getRandomNumber(0, elements.length-1)];
-};
 
 const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
@@ -88,11 +52,4 @@ const showErrorMessage = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const showSuccessMessage = () => {
-  const successMessage = successMessageTemplate.cloneNode(true);
-  messagePlacement.appendChild(successMessage);
-  successMessage.querySelector('.success__button').addEventListener('click', () => {messagePlacement.removeChild(successMessage)});
-
-};
-
-export {showSuccessMessage, showErrorMessage, getRandomNumber, checkStringLength, getPhotosIdList, getCommentId, getRandomElement, isEscEvent, increaseScale, decreaseScale};
+export {showErrorMessage, checkStringLength, isEscEvent, increaseScale, decreaseScale};

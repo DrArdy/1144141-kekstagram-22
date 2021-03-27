@@ -1,8 +1,8 @@
-import {showSuccessMessage} from './util.js';
+import {SERVER_GET_ADRESS, SERVER_SEND_ADRESS} from './constants.js';
 
 const sendServerData = (onSuccess, onFail, body) => {
   fetch(
-    'https://22.javascript.pages.academy/kekstagram',
+    SERVER_SEND_ADRESS,
     {
       method: 'POST',
       body,
@@ -11,29 +11,32 @@ const sendServerData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-        showSuccessMessage();
+        return response.json();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        return Promise.reject();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail();
     });
 };
 
 const getServerData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/kekstagram/data')
-    .then((response) => response.json())
+  fetch(SERVER_GET_ADRESS)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      else {
+        return Promise.reject()
+      }
+    })
     .then((dataList) => {
       onSuccess(dataList);
+    })
+    .catch((message) => {
+      alert(message.fieldName + ' ' + message.errorMessage);
     });
-};
-
-
-
-
-const getData = async () => {
-  const response = await fetch('https://22.javascript.pages.academy/kekstagram');
 };
 
 export {getServerData, sendServerData};
