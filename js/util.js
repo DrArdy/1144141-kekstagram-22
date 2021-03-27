@@ -1,4 +1,4 @@
-import {SCALE_STEP, SCALE_MAX, SCALE_MIN, ALERT_SHOW_TIME} from './constants.js';
+import {SCALE_STEP, SCALE_MAX, SCALE_MIN} from './constants.js';
 
 const scaleInput = document.querySelector('.scale__control--value');
 const photosPreviewDisplay = document.querySelector('.img-upload__preview');
@@ -31,25 +31,4 @@ const changeScale = (value) => {
   previewImg.style.transform = `scale(${value / 100})`;
 };
 
-const showErrorMessage = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-  
-  alertContainer.textContent = message;
-  
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-};
-
-export {showErrorMessage, checkStringLength, isEscEvent, increaseScale, decreaseScale};
+export {checkStringLength, isEscEvent, increaseScale, decreaseScale};

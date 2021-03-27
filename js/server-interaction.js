@@ -28,14 +28,14 @@ const getServerData = (onSuccess) => {
         return response.json();
       }
       else {
-        return Promise.reject()
+        throw new Error(`${response.status} ${response.statusText}`);
       }
     })
     .then((dataList) => {
       onSuccess(dataList);
     })
-    .catch((message) => {
-      alert(message.fieldName + ' ' + message.errorMessage);
+    .catch((error) => {
+      alert(error);
     });
 };
 
