@@ -28,8 +28,12 @@ const renderPictures = (dataList) => {
 };
 
 const renderPicturesFromServer = () => {
-  getServerData((dataList) => {
-    renderPictures(dataList);
+  getServerData().then(
+    (dataList) => {
+      renderPictures(dataList);
+    },
+  ).catch((error) => {
+    alert(error);
   });
 };
 
