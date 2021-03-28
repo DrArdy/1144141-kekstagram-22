@@ -1,5 +1,6 @@
 import {openBigPhotosPopup} from './big-picture-block.js';
 import {getServerData} from './server-interaction.js';
+import {RANDOM_PHOTOS_QUANTITY, FILTER_DELAY} from './constants.js';
 
 const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
@@ -43,32 +44,36 @@ const renderPicturesFromServer = () => {
 };
 
 const initFilters = (dataList) => {
+  const clonedPhotosList = dataList.slice(0);
   filtersBlock.classList.remove('img-filters--inactive');
-  
-  filterDiscussedButton.addEventListener('click', renderByDiscussed(dataList));
-  filterRandomButton.addEventListener('click', renderByRandom(dataList));
-  filterDefaultButton.addEventListener('click', renderByDefault(dataList));
+  filterDefaultButton.addEventListener('click', _.debounce(renderByDefault(dataList), FILTER_DELAY));
+  filterDiscussedButton.addEventListener('click', _.debounce(renderByDiscussed(clonedPhotosList), FILTER_DELAY));
+  filterRandomButton.addEventListener('click', _.debounce(renderByRandom(clonedPhotosList), FILTER_DELAY));
 };
 
 const renderByDiscussed = (dataList)  => () => {
+  clearActiveFiltersClasses();
+  filterDiscussedButton.classList.add('img-filters__button--active');
   clearPictures();
   renderPictures(sortByDiscussed(dataList));
 };
 
 const renderByDefault = (dataList) => () => {
+  clearActiveFiltersClasses();
+  filterDefaultButton.classList.add('img-filters__button--active');
   clearPictures();
   renderPictures(dataList);
 };
 
 const renderByRandom = (dataList) => () => {
+  clearActiveFiltersClasses();
+  filterRandomButton.classList.add('img-filters__button--active');
   clearPictures();
-  renderPictures(shuffleArray(dataList));
+  renderPictures(shuffleArray(dataList).slice(0, RANDOM_PHOTOS_QUANTITY));
 };
 
 const clearPictures = () => {
-  while (photosPool.firstChild) {
-    photosPool.removeChild(photosPool.firstChild);
-  }
+  photosPool.querySelectorAll('.picture').forEach((picture) => picture.remove());
 };
 
 const shuffleArray = (dataList) => {
@@ -82,9 +87,15 @@ const shuffleArray = (dataList) => {
 };
 
 const sortByDiscussed = (dataList) => {
-  dataList.sort((a, b) => {
+  return dataList.sort((a, b) => {
     return b.comments.length - a.comments.length;
   });
-}
+};
+
+const clearActiveFiltersClasses = () => {
+  filterDefaultButton.classList.remove('img-filters__button--active');
+  filterRandomButton.classList.remove('img-filters__button--active');
+  filterDiscussedButton.classList.remove('img-filters__button--active');
+};
 
 export {renderPicturesFromServer};
