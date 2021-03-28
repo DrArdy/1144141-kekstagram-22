@@ -25,6 +25,38 @@ const failMessageTemplate = document.querySelector('#error')
   .querySelector('.error');
 const messagePlacement = document.querySelector('main');
 
+const closeOnEscKeydown = (closeHandler) => (event) => {
+  if (isEscEvent(event)) {
+    event.preventDefault();
+    closeHandler();
+  }
+};
+
+const handleStopPropagation = (event) => event.stopPropagation();
+
+const closePhotosEditorPopup = () => {
+  photosEditorPopup.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  effectsLevelSlider.noUiSlider.destroy();
+  previewImg.className = '';
+  previewImg.style.filter = '';
+  previewImg.style.transform = '';
+  photosInput.value = '';
+  
+  closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
+  document.removeEventListener('keydown', closeBigPhotosPopupOnEsc);
+  zoomInButton.removeEventListener('click', increaseScale);
+  zoomOutButton.removeEventListener('click', decreaseScale);
+  effectsButtons.forEach((button) => {
+    button.removeEventListener('change', handleChangeEffects);
+  });
+  commentAndHashtagField.removeEventListener('esc', handleStopPropagation);
+  photosHashtagsField.removeEventListener('input', handleValidationEvent);
+  photosUploadForm.removeEventListener('submit', handleSubmitEvent);
+};
+
+const closeBigPhotosPopupOnEsc = closeOnEscKeydown(closePhotosEditorPopup);
+
 const openPhotosEditorPopup = () => {
   bodyElement.classList.add('modal-open');
   photosEditorPopup.classList.remove('hidden');
@@ -53,43 +85,15 @@ const openPhotosEditorPopup = () => {
   });
 
   closePhotosEditorButton.addEventListener('click', closePhotosEditorPopup);
-  document.addEventListener('keydown', closeOnEscKeydown(closePhotosEditorPopup));
+  document.addEventListener('keydown', closeBigPhotosPopupOnEsc);
   zoomInButton.addEventListener('click', increaseScale);
   zoomOutButton.addEventListener('click', decreaseScale);
   effectsButtons.forEach((button) => {
     button.addEventListener('change', handleChangeEffects);
   });
-  commentAndHashtagField.addEventListener('esc', (event) => {event.stopPropagation});
+  commentAndHashtagField.addEventListener('esc', handleStopPropagation);
   photosHashtagsField.addEventListener('input', handleValidationEvent);
   photosUploadForm.addEventListener('submit', handleSubmitEvent);
-};
-
-const closePhotosEditorPopup = () => {
-  photosEditorPopup.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-  effectsLevelSlider.noUiSlider.destroy();
-  previewImg.className = '';
-  previewImg.style.filter = '';
-  previewImg.style.transform = '';
-  photosInput.value = '';
-
-  closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
-  document.removeEventListener('keydown', closeOnEscKeydown(closePhotosEditorPopup));
-  zoomInButton.removeEventListener('click', increaseScale);
-  zoomOutButton.removeEventListener('click', decreaseScale);
-  effectsButtons.forEach((button) => {
-    button.removeEventListener('change', handleChangeEffects);
-  });
-  commentAndHashtagField.removeEventListener('esc', (event) => {event.stopPropagation});
-  photosHashtagsField.removeEventListener('input', handleValidationEvent);
-  photosUploadForm.removeEventListener('submit', handleSubmitEvent);
-};
-
-const closeOnEscKeydown = (closeHandler) => (event) => {
-  if (isEscEvent(event)) {
-    event.preventDefault();
-    closeHandler();
-  }
 };
 
 const calculateEffect = (effect, value) => {
@@ -178,7 +182,7 @@ const handleChangeEffects = (event) => {
     effectsLevelField.classList.remove('hidden');
 
     effectsLevelSlider.noUiSlider.on('update', (values, handle, unencoded) => {
-      effectsLevelValue.value = values[handle];
+      effectsLevelValue.setAttribute('value', values[handle]);
       previewImg.style.filter = calculateEffect(currentScaleEffect, unencoded[handle]);
     });
   }
@@ -189,38 +193,37 @@ const handleSubmitEvent = (event) => {
   event.preventDefault();
   
   sendServerData(
-    () => showSuccessMessage(),
-    () => showFailMessage(),
     new FormData(event.target),
+  ).then(
+    showMessage('success'),
+  ).catch(
+    showMessage('error'),
   );
 };
 
-const showSuccessMessage = () => {
-  const successMessage = successMessageTemplate.cloneNode(true);
+const showMessage = (type) => () => {
+  const template = type === 'success' ? successMessageTemplate : failMessageTemplate;
+  const openedMessage = template.cloneNode(true);
+  const closeButton = openedMessage.querySelector(`.${type}__button`);
+
+  messagePlacement.appendChild(openedMessage);
+
+  const handleClose = () => {
+    messagePlacement.removeChild(openedMessage);
+
+    document.removeEventListener('keydown', closeMessageOnEsc);
+    messagePlacement.removeEventListener('click', handleClose);
+  };
+  const handleCloseClick = (event) => {
+    if (event.target === event.currentTarget) handleClose();
+  };
+  const closeMessageOnEsc = closeOnEscKeydown(handleClose);
+
   closePhotosEditorPopup();
-  messagePlacement.appendChild(successMessage);
-  startMessageListeners(successMessage, 'success');
-};
 
-const showFailMessage = () => {
-  const failMessage = failMessageTemplate.cloneNode(true);
-  closePhotosEditorPopup();
-  messagePlacement.appendChild(failMessage);
-  startMessageListeners(failMessage, 'error');
-};
-
-const startMessageListeners = (openedMessage, messageType) => {
-  openedMessage.querySelector(`.${messageType}__button`).addEventListener('click', closeMessage(openedMessage, messageType));
-  document.addEventListener('keydown', closeOnEscKeydown(closeMessage(openedMessage, messageType)));
-  bodyElement.addEventListener('click', closeMessage(openedMessage, messageType));
-};
-
-const closeMessage = (openedMessage, messageType) => () => {
-  messagePlacement.removeChild(openedMessage);
-  openedMessage.querySelector(`.${messageType}__button`).removeEventListener('click', closeMessage(openedMessage, messageType));
-  document.removeEventListener('keydown', closeOnEscKeydown(closeMessage(openedMessage, messageType)));
-  bodyElement.removeEventListener('click', closeMessage(openedMessage, messageType));
-  openedMessage.removeEventListener('click', (event) => {event.stopPropagation()});
+  closeButton.addEventListener('click', handleCloseClick);
+  document.addEventListener('keydown', closeMessageOnEsc);
+  openedMessage.addEventListener('click', handleCloseClick);
 };
 
 export {openPhotosEditorPopup};

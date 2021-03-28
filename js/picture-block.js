@@ -32,9 +32,13 @@ const renderPictures = (dataList) => {
 };
 
 const renderPicturesFromServer = () => {
-  getServerData((dataList) => {
-    renderPictures(dataList);
-    initFilters(dataList);
+  getServerData().then(
+    (dataList) => {
+      renderPictures(dataList);
+      initFilters(dataList);
+    },
+  ).catch((error) => {
+    alert(error);
   });
 };
 
