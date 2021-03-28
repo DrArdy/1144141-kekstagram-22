@@ -60,6 +60,7 @@ const openBigPhotosPopup = (pictureData) => () => {
   bodyElement.classList.add('modal-open');
   renderBigPhotosPopup(pictureData);
   bigPhotosPopup.classList.remove('hidden');
+  commentsLoaderButton.classList.remove('hidden');
 
   while (bigPhotosCommentsPool.firstChild) {
     bigPhotosCommentsPool.removeChild(bigPhotosCommentsPool.firstChild);
@@ -83,6 +84,7 @@ const openBigPhotosPopup = (pictureData) => () => {
 
     if (endIndex >= pictureCommentsClone.length) {
       commentsLoaderButton.removeEventListener('click', handleCommentsLoaderClick);
+      commentsLoaderButton.classList.add('hidden');
     }
   };
 
