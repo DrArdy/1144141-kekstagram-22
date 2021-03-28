@@ -226,4 +226,10 @@ const showMessage = (type) => () => {
   openedMessage.addEventListener('click', handleCloseClick);
 };
 
-export {openPhotosEditorPopup};
+const initPictureUploader = () => {
+  const uploadFileField = document.querySelector('#upload-file');
+
+  uploadFileField.addEventListener('change', openPhotosEditorPopup);
+};
+
+export {initPictureUploader};
