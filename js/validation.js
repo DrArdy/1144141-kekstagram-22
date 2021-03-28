@@ -1,4 +1,4 @@
-import {MAX_HASHTAGS_QUANTITY, HASHTAG_REGULAR_EXPRESSION} from './constants.js';
+import {MAX_HASHTAGS_QUANTITY} from './constants.js';
 
 const photosHashtag = document.querySelector('.text__hashtags');
 
