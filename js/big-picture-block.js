@@ -96,6 +96,12 @@ const openBigPhotosPopup = (pictureData) => () => {
   };
 
   commentsLoaderButton.addEventListener('click', handleCommentsLoaderClick);
+
+  if (pictureData.comments.length <= COMMENTS_QUANTITY_STEP) {
+    commentsLoaderButton.removeEventListener('click', handleCommentsLoaderClick);
+    commentsLoaderButton.classList.add('hidden');
+  }
+
   closeBigPhotosPopupButton.addEventListener('click', closeBigPhotosPopup);
 };
 
