@@ -1,8 +1,8 @@
 import {sendServerData} from './server-interaction.js';
 import {isEscEvent, increaseScale, decreaseScale} from './util.js';
 import {handleValidationEvent} from './validation.js';
+import {FILE_TYPES} from './constants.js';
 
-const bodyElement = document.querySelector('body');
 const photosEditorPopup = document.querySelector('.img-upload__overlay');
 const photosInput = document.querySelector('#upload-file');
 const commentAndHashtagField = document.querySelector('.img-upload__text');
@@ -16,7 +16,8 @@ const effectsButtons = photosEditorPopup.querySelectorAll('.effects__radio');
 const effectsLevelSlider = photosEditorPopup.querySelector('.effect-level__slider');
 const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-level');
 const effectsLevelValue = photosEditorPopup.querySelector('.effect-level__value');
-const photosHashtagsField = photosUploadForm.querySelector('.text__hashtags');
+const photosHashtagsField = commentAndHashtagField.querySelector('.text__hashtags');
+const photosCommentsTextarea = commentAndHashtagField.querySelector('.text__description');
 const successMessageTemplate = document.querySelector('#success')
   .content 
   .querySelector('.success');
@@ -40,13 +41,15 @@ const handleStopPropagation = (event) => {
 
 const closePhotosEditorPopup = () => {
   photosEditorPopup.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   effectsLevelSlider.noUiSlider.destroy();
   previewImg.className = '';
   previewImg.style.filter = '';
   previewImg.style.transform = '';
   photosInput.value = '';
-  
+  photosCommentsTextarea.value = '';
+  photosHashtagsField.value = '';
+
   closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
   document.removeEventListener('keydown', closeBigPhotosPopupOnEsc);
   zoomInButton.removeEventListener('click', increaseScale);
@@ -62,7 +65,7 @@ const closePhotosEditorPopup = () => {
 const closeBigPhotosPopupOnEsc = closeOnEscKeydown(closePhotosEditorPopup);
 
 const openPhotosEditorPopup = () => {
-  bodyElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   photosEditorPopup.classList.remove('hidden');
   photosEditorPopup.querySelector('.scale__control--value').value = '100%';
   effectsLevelField.classList.add('hidden');
@@ -87,6 +90,8 @@ const openPhotosEditorPopup = () => {
       },
     },
   });
+  
+  readChosenFile();
 
   closePhotosEditorButton.addEventListener('click', closePhotosEditorPopup);
   document.addEventListener('keydown', closeBigPhotosPopupOnEsc);
@@ -231,9 +236,26 @@ const showMessage = (type) => () => {
 };
 
 const initPictureUploader = () => {
-  const uploadFileField = document.querySelector('#upload-file');
+  photosInput.addEventListener('change', openPhotosEditorPopup);
+};
 
-  uploadFileField.addEventListener('change', openPhotosEditorPopup);
+const readChosenFile = () => {
+  const photosFile = photosInput.files[0];
+  const fileName = photosFile.name.toLowerCase();
+    
+  const fileMatch = FILE_TYPES.some((it) => {
+    return fileName.endsWith(it);
+  });
+    
+  if (fileMatch) {
+    const reader = new FileReader();
+      
+    reader.addEventListener('load', () => {
+      previewImg.src = reader.result;
+    });
+      
+    reader.readAsDataURL(photosFile);
+  }
 };
 
 export {initPictureUploader};
