@@ -33,7 +33,9 @@ const debounce = (functionTarget, delay) => {
   let isCooldown = false;
 
   return (...args) => {
-    if (isCooldown) return;
+    if (isCooldown) {
+      return;
+    }
 
     functionTarget.apply(this, ...args);
 

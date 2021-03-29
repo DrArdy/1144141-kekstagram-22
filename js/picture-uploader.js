@@ -224,7 +224,9 @@ const showMessage = (type) => () => {
     messagePlacement.removeEventListener('click', handleClose);
   };
   const handleCloseClick = (event) => {
-    if (event.target === event.currentTarget) handleClose();
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
   };
   const closeMessageOnEsc = closeOnEscKeydown(handleClose);
 
