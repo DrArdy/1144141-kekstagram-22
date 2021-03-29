@@ -106,7 +106,7 @@ const openBigPhotosPopup = (pictureData) => () => {
 
   renderBigPhotosPopup(pictureData);
 
-  closeBigPhotosPopupButton.addEventListener('click', closeButtonClickHandler, { once: true });
+  closeBigPhotosPopupButton.addEventListener('click', closeButtonClickHandler, {once: true});
 };
 
 export {openBigPhotosPopup};
