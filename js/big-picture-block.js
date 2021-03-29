@@ -5,6 +5,9 @@ const bigPhotosLikesCount = bigPhotosPopup.querySelector('.likes-count');
 const bigPhotosCommentsCount = bigPhotosPopup.querySelector('.comments-count');
 const bigPhotosCommentsPool = bigPhotosPopup.querySelector('.social__comments');
 const bigPhotosDescription = bigPhotosPopup.querySelector('.social__caption');
+const closeBigPhotosPopupButton = document.querySelector('.big-picture__cancel');
+const bodyElement = document.querySelector('body');
+
 
 const renderPhotosComments = (commentDataElements) => {
   const commentFragment = document.createDocumentFragment();
@@ -38,24 +41,21 @@ const renderBigPhotosPopup = (dataElement) => {
   bigPhotosDescription.textContent = dataElement.description;
 };
 
-const closePhotosPopupElement = document.querySelector('.big-picture__cancel');
-
-const bigPhotosPopupConditionElement = document.querySelector('body');
-
 const openBigPhotosPopup = (pictureData) => () => {
-  bigPhotosPopupConditionElement.classList.add('modal-open');
+  bodyElement.classList.add('modal-open');
   renderBigPhotosPopup(pictureData);
   bigPhotosPopup.classList.remove('hidden');
   while (bigPhotosCommentsPool.firstChild) {
     bigPhotosCommentsPool.removeChild(bigPhotosCommentsPool.firstChild);
   }
   bigPhotosCommentsPool.appendChild(renderPhotosComments(pictureData.comments));
-  closePhotosPopupElement.addEventListener('click', closeBigPhotosPopup, false);
+  closeBigPhotosPopupButton.addEventListener('click', closeBigPhotosPopup);
 };
 
 const closeBigPhotosPopup = () => {
   bigPhotosPopup.classList.add('hidden');
-  bigPhotosPopupConditionElement.classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
+  closeBigPhotosPopupButton.removeEventListener('click', closeBigPhotosPopup)
 };
 
 export {openBigPhotosPopup};

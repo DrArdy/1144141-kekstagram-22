@@ -1,5 +1,7 @@
 import {openBigPhotosPopup} from './big-picture-block.js';
+import {getServerData} from './server-interaction.js';
 
+const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
   .content 
   .querySelector('.picture');
@@ -22,7 +24,17 @@ const renderPictures = (dataList) => {
     photosListFragment.appendChild(renderPicture(array));
   });
 
-  return photosListFragment;
+  photosPool.appendChild(photosListFragment);
 };
 
-export {renderPictures};
+const renderPicturesFromServer = () => {
+  getServerData().then(
+    (dataList) => {
+      renderPictures(dataList);
+    },
+  ).catch((error) => {
+    alert(error);
+  });
+};
+
+export {renderPicturesFromServer};
