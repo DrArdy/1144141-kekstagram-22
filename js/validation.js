@@ -1,4 +1,4 @@
-import {MAX_HASHTAGS_QUANTITY} from './constants.js';
+import {MAX_HASHTAGS_QUANTITY, HASHTAG_REGEXP} from './constants.js';
 
 const photosHashtag = document.querySelector('.text__hashtags');
 
@@ -16,7 +16,7 @@ const handleValidationEvent = () => {
   }
 
   for (let i = 0; i < hashtagList.length; i++) {  
-    if (!/^#([а-яА-Я\w]{1,20})$/gmi.test(hashtagList[i])) { 
+    if (!HASHTAG_REGEXP.test(hashtagList[i])) { 
       return setHashtagsError(' Хэштеги разделяются пробелом. Строка после решётки должна состоять из букв и чисел, длина от 1 до 20 символов.');
     }
   }

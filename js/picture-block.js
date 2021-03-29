@@ -1,6 +1,7 @@
 import {openBigPhotosPopup} from './big-picture-block.js';
 import {getServerData} from './server-interaction.js';
 import {RANDOM_PHOTOS_QUANTITY, FILTER_DELAY} from './constants.js';
+import {debounce} from './util.js';
 
 const photosPool = document.querySelector('.pictures');
 const picturePopupTemplate = document.querySelector('#picture')
@@ -46,9 +47,9 @@ const renderPicturesFromServer = () => {
 const initFilters = (dataList) => {
   const clonedPhotosList = dataList.slice(0);
   filtersBlock.classList.remove('img-filters--inactive');
-  filterDefaultButton.addEventListener('click', _.debounce(renderByDefault(dataList), FILTER_DELAY));
-  filterDiscussedButton.addEventListener('click', _.debounce(renderByDiscussed(clonedPhotosList), FILTER_DELAY));
-  filterRandomButton.addEventListener('click', _.debounce(renderByRandom(clonedPhotosList), FILTER_DELAY));
+  filterDefaultButton.addEventListener('click', debounce(renderByDefault(dataList), FILTER_DELAY));
+  filterDiscussedButton.addEventListener('click', debounce(renderByDiscussed(clonedPhotosList), FILTER_DELAY));
+  filterRandomButton.addEventListener('click', debounce(renderByRandom(clonedPhotosList), FILTER_DELAY));
 };
 
 const renderByDiscussed = (dataList)  => () => {

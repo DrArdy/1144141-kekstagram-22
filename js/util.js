@@ -4,8 +4,6 @@ const scaleInput = document.querySelector('.scale__control--value');
 const photosPreviewDisplay = document.querySelector('.img-upload__preview');
 const previewImg = photosPreviewDisplay.querySelector('img');
 
-const checkStringLength = (verifiableString, maxStringLength=140) => verifiableString.length <= maxStringLength;
-
 const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
@@ -31,4 +29,18 @@ const changeScale = (value) => {
   previewImg.style.transform = `scale(${value / 100})`;
 };
 
-export {checkStringLength, isEscEvent, increaseScale, decreaseScale};
+const debounce = (functionTarget, delay) => {
+  let isCooldown = false;
+
+  return (...args) => {
+    if (isCooldown) return;
+
+    functionTarget.apply(this, ...args);
+
+    isCooldown = true;
+
+    setTimeout(() => isCooldown = false, delay);
+  };
+};
+
+export {isEscEvent, increaseScale, decreaseScale, debounce};

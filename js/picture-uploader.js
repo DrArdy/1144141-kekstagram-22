@@ -3,7 +3,6 @@ import {isEscEvent, increaseScale, decreaseScale} from './util.js';
 import {handleValidationEvent} from './validation.js';
 import {FILE_TYPES} from './constants.js';
 
-const bodyElement = document.querySelector('body');
 const photosEditorPopup = document.querySelector('.img-upload__overlay');
 const photosInput = document.querySelector('#upload-file');
 const commentAndHashtagField = document.querySelector('.img-upload__text');
@@ -42,7 +41,7 @@ const handleStopPropagation = (event) => {
 
 const closePhotosEditorPopup = () => {
   photosEditorPopup.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   effectsLevelSlider.noUiSlider.destroy();
   previewImg.className = '';
   previewImg.style.filter = '';
@@ -66,7 +65,7 @@ const closePhotosEditorPopup = () => {
 const closeBigPhotosPopupOnEsc = closeOnEscKeydown(closePhotosEditorPopup);
 
 const openPhotosEditorPopup = () => {
-  bodyElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   photosEditorPopup.classList.remove('hidden');
   photosEditorPopup.querySelector('.scale__control--value').value = '100%';
   effectsLevelField.classList.add('hidden');

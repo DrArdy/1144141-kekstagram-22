@@ -1,8 +1,8 @@
-import {SERVER_GET_ADRESS, SERVER_SEND_ADRESS} from './constants.js';
+import {SERVER_GET_URL, SERVER_SEND_URL} from './constants.js';
 
 const sendServerData = (body) => {
   return fetch(
-    SERVER_SEND_ADRESS,
+    SERVER_SEND_URL,
     {
       method: 'POST',
       body,
@@ -18,7 +18,7 @@ const sendServerData = (body) => {
 };
 
 const getServerData = () => {
-  return fetch(SERVER_GET_ADRESS)
+  return fetch(SERVER_GET_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
