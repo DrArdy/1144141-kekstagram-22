@@ -5,6 +5,8 @@ import {handleValidationEvent} from './validation.js';
 const bodyElement = document.querySelector('body');
 const photosEditorPopup = document.querySelector('.img-upload__overlay');
 const photosInput = document.querySelector('#upload-file');
+const commentAndHashtagField = document.querySelector('.img-upload__text');
+const photosUploadForm = document.querySelector('.img-upload__form');
 const closePhotosEditorButton = photosEditorPopup.querySelector('#upload-cancel');
 const zoomInButton = photosEditorPopup.querySelector('.scale__control--bigger');
 const zoomOutButton = photosEditorPopup.querySelector('.scale__control--smaller');
@@ -14,8 +16,6 @@ const effectsButtons = photosEditorPopup.querySelectorAll('.effects__radio');
 const effectsLevelSlider = photosEditorPopup.querySelector('.effect-level__slider');
 const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-level');
 const effectsLevelValue = photosEditorPopup.querySelector('.effect-level__value');
-const commentAndHashtagField = document.querySelector('.img-upload__text');
-const photosUploadForm = document.querySelector('.img-upload__form');
 const photosHashtagsField = photosUploadForm.querySelector('.text__hashtags');
 const successMessageTemplate = document.querySelector('#success')
   .content 
@@ -32,7 +32,11 @@ const closeOnEscKeydown = (closeHandler) => (event) => {
   }
 };
 
-const handleStopPropagation = (event) => event.stopPropagation();
+const handleStopPropagation = (event) => {
+  if (isEscEvent(event)) {
+    event.stopPropagation();
+  }
+};
 
 const closePhotosEditorPopup = () => {
   photosEditorPopup.classList.add('hidden');
@@ -50,7 +54,7 @@ const closePhotosEditorPopup = () => {
   effectsButtons.forEach((button) => {
     button.removeEventListener('change', handleChangeEffects);
   });
-  commentAndHashtagField.removeEventListener('esc', handleStopPropagation);
+  commentAndHashtagField.removeEventListener('keydown', handleStopPropagation);
   photosHashtagsField.removeEventListener('input', handleValidationEvent);
   photosUploadForm.removeEventListener('submit', handleSubmitEvent);
 };
@@ -91,7 +95,7 @@ const openPhotosEditorPopup = () => {
   effectsButtons.forEach((button) => {
     button.addEventListener('change', handleChangeEffects);
   });
-  commentAndHashtagField.addEventListener('esc', handleStopPropagation);
+  commentAndHashtagField.addEventListener('keydown', handleStopPropagation);
   photosHashtagsField.addEventListener('input', handleValidationEvent);
   photosUploadForm.addEventListener('submit', handleSubmitEvent);
 };
