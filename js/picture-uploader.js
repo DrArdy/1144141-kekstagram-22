@@ -1,5 +1,5 @@
 import {sendServerData} from './server-interaction.js';
-import {isEscEvent, increaseScale, decreaseScale} from './util.js';
+import {isEscEvent, closeOnEscKeydown, increaseScale, decreaseScale} from './util.js';
 import {handleValidationEvent} from './validation.js';
 import {FILE_TYPES} from './constants.js';
 
@@ -25,13 +25,6 @@ const failMessageTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
 const messagePlacement = document.querySelector('main');
-
-const closeOnEscKeydown = (closeHandler) => (event) => {
-  if (isEscEvent(event)) {
-    event.preventDefault();
-    closeHandler();
-  }
-};
 
 const handleStopPropagation = (event) => {
   if (isEscEvent(event)) {

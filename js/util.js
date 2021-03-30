@@ -44,4 +44,11 @@ const debounce = (functionTarget, delay) => {
   };
 };
 
-export {isEscEvent, increaseScale, decreaseScale, debounce};
+const closeOnEscKeydown = (closeHandler) => (event) => {
+  if (isEscEvent(event)) {
+    event.preventDefault();
+    closeHandler();
+  }
+};
+
+export {isEscEvent, increaseScale, decreaseScale, debounce, closeOnEscKeydown};

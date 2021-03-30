@@ -1,4 +1,5 @@
 import {COMMENTS_QUANTITY_STEP} from './constants.js';
+import {closeOnEscKeydown} from './util.js';
 
 const bigPhotosPopup = document.querySelector('.big-picture');
 const closeBigPhotosPopupButton = document.querySelector('.big-picture__cancel');
@@ -94,19 +95,20 @@ const renderComments = (commentsList) => {
 
 const openBigPhotosPopup = (pictureData) => () => {
   const unmountComments = renderComments(pictureData.comments);
-  const closeButtonClickHandler = () => {
+  const closeButtonHandler = () => {
     bigPhotosPopup.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    closeBigPhotosPopupButton.removeEventListener('click', closeButtonClickHandler);
     unmountComments();
+    document.removeEventListener('keydown', closeOnEscKeydown(closeButtonHandler));
   }
 
   document.body.classList.add('modal-open');
   bigPhotosPopup.classList.remove('hidden');
 
   renderBigPhotosPopup(pictureData);
-
-  closeBigPhotosPopupButton.addEventListener('click', closeButtonClickHandler, {once: true});
+  
+  document.addEventListener('keydown', closeOnEscKeydown(closeButtonHandler));
+  closeBigPhotosPopupButton.addEventListener('click', closeButtonHandler, {once: true});
 };
 
 export {openBigPhotosPopup};
