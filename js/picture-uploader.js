@@ -13,6 +13,7 @@ const zoomOutButton = photosEditorPopup.querySelector('.scale__control--smaller'
 const photosPreviewDisplay = photosEditorPopup.querySelector('.img-upload__preview');
 const previewImg = photosPreviewDisplay.querySelector('img');
 const effectsButtons = photosEditorPopup.querySelectorAll('.effects__radio');
+const effectsPreviewImages = photosEditorPopup.querySelectorAll('.effects__preview');
 const originalEffectButton = photosEditorPopup.querySelector('.effects__radio');
 const effectsLevelSlider = photosEditorPopup.querySelector('.effect-level__slider');
 const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-level');
@@ -252,6 +253,9 @@ const readChosenFile = () => {
       
     reader.addEventListener('load', () => {
       previewImg.src = reader.result;
+      effectsPreviewImages.forEach((preview) => {
+        preview.style.backgroundImage = `url(${reader.result})`;
+      });
     });
       
     reader.readAsDataURL(photosFile);
