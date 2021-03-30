@@ -42,8 +42,10 @@ const closePhotosEditorPopup = () => {
   previewImg.style.transform = '';
   photosInput.value = '';
   photosCommentsTextarea.value = '';
-  photosHashtagsField.value = '';
   originalEffectButton.checked = true;
+  photosHashtagsField.value = '';
+  photosHashtagsField.style.borderColor = '';
+  photosHashtagsField.setCustomValidity('');
 
   closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
   document.removeEventListener('keydown', closeBigPhotosPopupOnEsc);
