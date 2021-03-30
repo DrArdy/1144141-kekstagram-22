@@ -39,6 +39,7 @@ const closePhotosEditorPopup = () => {
   document.body.classList.remove('modal-open');
   effectsLevelSlider.noUiSlider.destroy();
   previewImg.className = '';
+  previewImg.src = '';
   previewImg.style.filter = '';
   previewImg.style.transform = '';
   photosInput.value = '';
@@ -47,6 +48,9 @@ const closePhotosEditorPopup = () => {
   photosHashtagsField.value = '';
   photosHashtagsField.style.borderColor = '';
   photosHashtagsField.setCustomValidity('');
+  effectsPreviewImages.forEach((preview) => {
+    preview.style.backgroundImage = '';
+  });
 
   closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
   document.removeEventListener('keydown', closeBigPhotosPopupOnEsc);
