@@ -1,4 +1,4 @@
-import {COMMENTS_QUANTITY_STEP} from './constants.js';
+import {COMMENTS_QUANTITY_STEP, AVATAR_WIDTH, AVATAR_HEIGHT} from './constants.js';
 import {closeOnEscKeydown} from './util.js';
 
 const bigPhotosPopup = document.querySelector('.big-picture');
@@ -42,8 +42,8 @@ const renderComment = (data) => {
 
   commentsAuthorAvatar.src = data.avatar;
   commentsAuthorAvatar.alt = data.name;
-  commentsAuthorAvatar.width = 35;
-  commentsAuthorAvatar.height = 35;
+  commentsAuthorAvatar.width = AVATAR_WIDTH;
+  commentsAuthorAvatar.height = AVATAR_HEIGHT;
   commentsText.textContent = data.message;
 
   commentContainer.appendChild(commentsAuthorAvatar);

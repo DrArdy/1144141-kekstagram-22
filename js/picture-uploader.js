@@ -1,7 +1,7 @@
 import {sendServerData} from './server-interaction.js';
 import {isEscEvent, closeOnEscKeydown, increaseScale, decreaseScale} from './util.js';
 import {handleValidationEvent} from './validation.js';
-import {FILE_TYPES} from './constants.js';
+import {FILE_TYPES, SCALE_DEFAULT_VALUE, BASIC_NO_UI_OPTIONS, CHROME_NO_UI_OPTIONS, SEPIA_NO_UI_OPTIONS, MARVIN_NO_UI_OPTIONS, PHOBOS_NO_UI_OPTIONS, HEAT_NO_UI_OPTIONS} from './constants.js';
 
 const photosEditorPopup = document.querySelector('.img-upload__overlay');
 const photosInput = document.querySelector('#upload-file');
@@ -69,30 +69,10 @@ const closeBigPhotosPopupOnEsc = closeOnEscKeydown(closePhotosEditorPopup);
 const openPhotosEditorPopup = () => {
   document.body.classList.add('modal-open');
   photosEditorPopup.classList.remove('hidden');
-  photosEditorPopup.querySelector('.scale__control--value').value = '100%';
+  photosEditorPopup.querySelector('.scale__control--value').value = SCALE_DEFAULT_VALUE;
   effectsLevelField.classList.add('hidden');
 
-  
-  window.noUiSlider.create(effectsLevelSlider, {
-    range: {
-      min: 0,
-      max: 1,
-    },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-    format: {
-      to: function (value) {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
-    },
-  });
+  window.noUiSlider.create(effectsLevelSlider, BASIC_NO_UI_OPTIONS);
   
   readChosenFile();
 
@@ -128,54 +108,19 @@ const calculateEffect = (effect, value) => {
 const setupSliderSettings = (effect) => {
   switch (effect) {
     case 'chrome':
-      effectsLevelSlider.noUiSlider.updateOptions({
-        range: {
-          'min': 0,
-          'max': 1,
-        },
-        step: 0.1,
-        start: 1,
-      });
+      effectsLevelSlider.noUiSlider.updateOptions(CHROME_NO_UI_OPTIONS);
       break
     case 'sepia':
-      effectsLevelSlider.noUiSlider.updateOptions({
-        range: {
-          'min': 0,
-          'max': 1,
-        },
-        step: 0.1,
-        start: 1,
-      });
+      effectsLevelSlider.noUiSlider.updateOptions(SEPIA_NO_UI_OPTIONS);
       break
     case 'marvin':
-      effectsLevelSlider.noUiSlider.updateOptions({
-        range: {
-          'min': 0,
-          'max': 100,
-        },
-        step: 1,
-        start: 100,
-      });
+      effectsLevelSlider.noUiSlider.updateOptions(MARVIN_NO_UI_OPTIONS);
       break
     case 'phobos':
-      effectsLevelSlider.noUiSlider.updateOptions({
-        range: {
-          'min': 0,
-          'max': 3,
-        },
-        step: 0.1,
-        start: 3,
-      });
+      effectsLevelSlider.noUiSlider.updateOptions(PHOBOS_NO_UI_OPTIONS);
       break
     case 'heat':
-      effectsLevelSlider.noUiSlider.updateOptions({
-        range: {
-          'min': 1,
-          'max': 3,
-        },
-        step: 0.1,
-        start: 3,
-      });
+      effectsLevelSlider.noUiSlider.updateOptions(HEAT_NO_UI_OPTIONS);
       break
     case 'none':
       break
