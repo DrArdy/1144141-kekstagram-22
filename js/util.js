@@ -31,13 +31,12 @@ const changeScale = (value) => {
 
 const debounce = (functionTarget, delay) => {
   let isCooldown = false;
-
   return (...args) => {
     if (isCooldown) {
       return;
     }
-
-    functionTarget.apply(this, ...args);
+   
+    functionTarget.apply(this, args);
 
     isCooldown = true;
 

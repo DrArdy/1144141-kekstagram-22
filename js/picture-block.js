@@ -46,27 +46,39 @@ const renderPicturesFromServer = () => {
 
 const initFilters = (dataList) => {
   const clonedPhotosList = dataList.slice(0);
+  
+  const handleFilter = debounce((filter) => {
+    switch(filter) {
+      case 'renderByDefault':
+        return renderByDefault(dataList);
+      case 'renderByDiscussed':
+        return renderByDiscussed(clonedPhotosList);
+      case 'renderByRandom':
+        return renderByRandom(clonedPhotosList);
+    }
+  }, FILTER_DELAY);
+
   filtersBlock.classList.remove('img-filters--inactive');
-  filterDefaultButton.addEventListener('click', debounce(renderByDefault(dataList), FILTER_DELAY));
-  filterDiscussedButton.addEventListener('click', debounce(renderByDiscussed(clonedPhotosList), FILTER_DELAY));
-  filterRandomButton.addEventListener('click', debounce(renderByRandom(clonedPhotosList), FILTER_DELAY));
+  filterDefaultButton.addEventListener('click', () => {handleFilter('renderByDefault')});
+  filterDiscussedButton.addEventListener('click', () => {handleFilter('renderByDiscussed')});
+  filterRandomButton.addEventListener('click', () => {handleFilter('renderByRandom')});
 };
 
-const renderByDiscussed = (dataList)  => () => {
+const renderByDiscussed = (dataList) => {
   clearActiveFiltersClasses();
   filterDiscussedButton.classList.add('img-filters__button--active');
   clearPictures();
   renderPictures(sortByDiscussed(dataList));
 };
 
-const renderByDefault = (dataList) => () => {
+const renderByDefault = (dataList) => {
   clearActiveFiltersClasses();
   filterDefaultButton.classList.add('img-filters__button--active');
   clearPictures();
   renderPictures(dataList);
 };
 
-const renderByRandom = (dataList) => () => {
+const renderByRandom = (dataList) => {
   clearActiveFiltersClasses();
   filterRandomButton.classList.add('img-filters__button--active');
   clearPictures();
