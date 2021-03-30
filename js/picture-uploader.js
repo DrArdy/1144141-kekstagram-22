@@ -13,6 +13,7 @@ const zoomOutButton = photosEditorPopup.querySelector('.scale__control--smaller'
 const photosPreviewDisplay = photosEditorPopup.querySelector('.img-upload__preview');
 const previewImg = photosPreviewDisplay.querySelector('img');
 const effectsButtons = photosEditorPopup.querySelectorAll('.effects__radio');
+const originalEffectButton = photosEditorPopup.querySelector('.effects__radio');
 const effectsLevelSlider = photosEditorPopup.querySelector('.effect-level__slider');
 const effectsLevelField = photosEditorPopup.querySelector('.img-upload__effect-level');
 const effectsLevelValue = photosEditorPopup.querySelector('.effect-level__value');
@@ -42,6 +43,7 @@ const closePhotosEditorPopup = () => {
   photosInput.value = '';
   photosCommentsTextarea.value = '';
   photosHashtagsField.value = '';
+  originalEffectButton.checked = true;
 
   closePhotosEditorButton.removeEventListener('click', closePhotosEditorPopup);
   document.removeEventListener('keydown', closeBigPhotosPopupOnEsc);
@@ -62,6 +64,7 @@ const openPhotosEditorPopup = () => {
   photosEditorPopup.classList.remove('hidden');
   photosEditorPopup.querySelector('.scale__control--value').value = '100%';
   effectsLevelField.classList.add('hidden');
+
   
   window.noUiSlider.create(effectsLevelSlider, {
     range: {
